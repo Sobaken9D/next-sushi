@@ -1,10 +1,10 @@
 import type {Metadata} from "next";
 import "./globals.css";
 
-import {Roboto, Geist } from "next/font/google";
-import { cn } from "@/shared/lib/utils";
+import {Roboto, Geist} from "next/font/google";
+import {cn} from "@/shared/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({subsets: ['latin'], variable: '--font-sans'});
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -13,7 +13,10 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Next-Sushi",
+  title: "Next Sushi",
+  icons: {
+    icon: "/assets/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -23,7 +26,8 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en" className={cn("font-sans", geist.variable)}
+      lang="en"
+      className={cn("font-sans", geist.variable)}
     >
     <body className={roboto.variable}>
     {children}

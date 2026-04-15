@@ -5,11 +5,11 @@ export async function categoriesSeed() {
     data: [
       {name: "Новинки"},
       {name: "Наборы"},
-      {name: "Роллы и Суши"},
       {name: "Обеды"},
+      {name: "Роллы и Суши"},
+      {name: "Горячее и салаты"},
       {name: "Напитки и десерты"},
       {name: "Соусы"},
-      {name: "Горячее и салаты"},
     ]
   });
 }
