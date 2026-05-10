@@ -3,6 +3,7 @@ import "./globals.css";
 
 import {Roboto, Geist} from "next/font/google";
 import {cn} from "@/shared/lib/utils";
+import {Providers} from "@/shared/components/shared/providers";
 
 const geist = Geist({subsets: ['latin'], variable: '--font-sans'});
 
@@ -30,7 +31,9 @@ export default function RootLayout({
       className={cn("font-sans", geist.variable)}
     >
     <body className={roboto.variable}>
-    {children}
+    <Providers>
+      {children}
+    </Providers>
     </body>
     </html>
   );
