@@ -936,7 +936,7 @@ export async function productsSeed() {
   await prisma.product.create({
     data:
       {
-        name: "Чикуби",
+        name: "Корпоративный",
         categoryId: `${category_sets.id}`,
         imageUrl: "https://imgr.yobidoyobi.com/web/menu/0d28820b-f169-4b24-b14a-24e2d2cfee8a/1bf2b3e1-7082-4acc-b472-1f9d61f2f8e7.webp",
         price: 3555,

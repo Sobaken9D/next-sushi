@@ -1,5 +1,5 @@
 import {prisma} from "@/prisma/prisma-client";
-import {ingredientsSeed, categoriesSeed, nutritionsSeed, productsSeed} from "./seeds";
+import {ingredientsSeed, categoriesSeed, productsSeed} from "./seeds";
 
 async function up() {
 

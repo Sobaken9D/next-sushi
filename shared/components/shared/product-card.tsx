@@ -30,6 +30,7 @@ export const ProductCard = ({
     <div className={className}>
       <Link
         href={`/product/${productId}`}
+        scroll={false}
         className="flex flex-col flex-1"
       >
 
@@ -52,10 +53,10 @@ export const ProductCard = ({
             {weight} г
           </p>
 
-          <p className="text-sm text-gray-400 line-clamp-2 h-[40px] leading-5">
+          <p className="text-gray-400 text-sm mb-6">
             {setItems.length > 0
-              ? setItems.map((item) => item.name).join(', ')
-              : ingredients.map((ingredient) => ingredient.name).join(', ')
+              ? `Состав набора: ${setItems.map((item) => item.name).join(', ')}`
+              : `Ингредиенты : ${ingredients.map((ingredient) => ingredient.name).join(', ')}`
             }
           </p>
         </div>

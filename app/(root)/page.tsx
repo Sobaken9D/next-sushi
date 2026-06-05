@@ -10,12 +10,15 @@ import {Suspense} from "react";
 import {Filters} from "@/shared/components/shared/filters";
 import {findFilterPrices} from "@/shared/lib/find-filter-prices";
 import {GetSearchParams} from "@/shared/lib/find-products";
+import {Test} from "@/shared/components/shared/test";
 
 export default async function Home({searchParams}: {searchParams: GetSearchParams}) {
   const categories = await findProducts(await searchParams);
 
   return (
     <>
+      {/*<Test/>*/}
+
       <Container>
         <Title
           text="Все товары"

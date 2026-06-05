@@ -14,7 +14,7 @@ const categorySlice = createSlice({
   reducers: {
     // state — это текущее состояние (мутируем напрямую благодаря Immer)
     // action — содержит данные, которые мы передаем при вызове
-    setActiveId: (state, action: PayloadAction<number>) => {
+    setActiveId: (state, action: PayloadAction<string>) => {
       state.activeId = action.payload;
     },
   },
