@@ -10,7 +10,8 @@ export type CartItemDto = CartItem & {
 }
 
 export interface CartDto {
-  items: CartItemDto;
+  items: CartItemDto[];
+  totalAmount: number;
 }
   
 export interface CreateCartItemDto {

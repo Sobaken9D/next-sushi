@@ -1,13 +1,22 @@
+'use client';
+
 import {Product} from "@/generated/prisma/client";
 import {Title} from "@/shared/components/shared/title";
 import {Button} from "@/shared/components/ui/button";
+import {addCartItem} from "@/shared/store/features/cartSlice";
+import {useAppDispatch} from "@/shared/store/hooks";
+import toast from "react-hot-toast";
 
 interface Props {
   product: Product;
 }
 
 export default function ProductForm({product}: Props) {
-  console.log(product);
+  const dispatch = useAppDispatch();
+
+  const handleAddProduct = (id: string) => {
+    dispatch(addCartItem({productItemId: id}));
+  };
 
   return (
     <div className="flex justify-center gap-12 p-10 bg-white rounded-3xl shadow-sm border border-gray-100 max-w-[900px] mx-auto">
@@ -84,8 +93,15 @@ export default function ProductForm({product}: Props) {
           </div>
 
           <Button
-            size="lg"
             className="w-full h-[55px] px-10 text-base font-bold rounded-xl cursor-pointer"
+            size="lg"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              toast.success(`${product.name} добавлен в корзину!`)
+              handleAddProduct(product.id);
+            }}
           >
             Добавить в корзину
           </Button>

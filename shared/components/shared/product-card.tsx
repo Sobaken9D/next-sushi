@@ -4,6 +4,9 @@ import {Title} from "@/shared/components/shared/title";
 import {Button} from "@/shared/components/ui/button";
 import {Plus} from "lucide-react";
 import {cn} from "@/shared/lib/utils";
+import {useAppDispatch} from "@/shared/store/hooks";
+import {addCartItem} from "@/shared/store/features/cartSlice";
+import toast from "react-hot-toast";
 
 interface Props {
   productId: string;
@@ -26,6 +29,12 @@ export const ProductCard = ({
   weight,
   className
 }: Props) => {
+  const dispatch = useAppDispatch();
+
+  const handleAddProduct = (id: string) => {
+    dispatch(addCartItem({productItemId: id}));
+  };
+
   return (
     <div className={className}>
       <Link
@@ -68,7 +77,14 @@ export const ProductCard = ({
 
           <Button
             variant="secondary"
-            className="font-bold"
+            className="font-bold cursor-pointer hover:brightness-90"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              toast.success(`${name} добавлен в корзину!`);
+              handleAddProduct(productId);
+            }}
           >
             <Plus
               size={20}

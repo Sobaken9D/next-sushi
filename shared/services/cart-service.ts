@@ -24,6 +24,8 @@ class CartService extends AbstractService {
       return data;
     } catch (error) {
       this.handleError(error, 'GET_CART');
+
+      throw error;
     }
   }
 
@@ -35,6 +37,8 @@ class CartService extends AbstractService {
       return data;
     } catch (error) {
       this.handleError(error, 'ADD_ITEM');
+
+      throw error;
     }
   }
 
@@ -45,16 +49,20 @@ class CartService extends AbstractService {
       return data;
     } catch (error) {
       this.handleError(error, 'REMOVE_ITEM');
+
+      throw error;
     }
   }
 
   // 3. Обновление количества
-  async updateItemQuantity({id, quantity}: UpdateCartItemQuantityDto): Promise<CartDto> {
+  async updateCartItemQuantity({id, quantity}: UpdateCartItemQuantityDto): Promise<CartDto> {
     try {
       const {data}: {data: CartDto} = await axiosInstance.patch<CartDto>(`${this.url}/${id}`, {quantity});
       return data;
     } catch (error) {
       this.handleError(error, 'UPDATE_QUANTITY_ITEM');
+
+      throw error;
     }
   }
 }

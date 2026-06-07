@@ -37,6 +37,9 @@ export async function createUpdatedCart(token: string): Promise<Cart> {
       items: {
         orderBy: {
           createdAt: 'desc'
+        },
+        include: {
+          productItem: true
         }
       }
     }

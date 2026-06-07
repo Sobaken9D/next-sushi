@@ -1,6 +1,12 @@
-import React from 'react';
+'use client';
+
+import React, {useRef} from 'react';
 import {Search} from "lucide-react";
 import {cn} from "@/shared/lib/utils";
+import {Product} from "@/generated/prisma/client";
+import Link from "next/link";
+import {useClickAway, useDebounce} from "react-use";
+import {Api} from "@/shared/services/api-client";
 
 interface Props {
   className?: string;
@@ -9,13 +15,75 @@ interface Props {
 // input растягивается за счет flex flex-1 у родителя и w-full у input
 
 export const SearchInput: React.FC<Props> = ({className}) => {
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [focused, setFocused] = React.useState(false);
+  const [products, setProducts] = React.useState<Product[]>([]);
+  const ref = useRef(null);
+
+  useClickAway(ref, () => {
+    setFocused(false);
+  });
+
+  useDebounce(
+    async () => {
+      try {
+        Api.products.searchProducts(searchQuery).then((items) => setProducts(items));
+      } catch (error) {
+        throw new Error(
+          error instanceof Error ? error.message : String(error)
+        );
+      }
+    },
+    100,
+    [searchQuery]
+  );
+
+  const onClickItem = () => {
+    setFocused(false);
+    setSearchQuery('');
+  }
+
   return (
-    <div className={cn("flex rounded-2xl flex-1 rounded-2xl justify-between relative h-11 z-30 ", className)}>
+    <div
+      ref={ref}
+      className={cn("flex rounded-2xl flex-1 rounded-2xl justify-between relative h-11 z-30", className)}
+    >
       <Search className="absolute top-1/2 translate-y-[-50%] left-3 h-5 text-gray-400" />
-      <input type="text"
-             placeholder="Искать блюда..."
-             className="rounded-2xl outline-none w-full bg-gray-100 pl-11"
+      <input
+        type="text"
+        placeholder="Искать блюда..."
+        className="rounded-2xl outline-none w-full bg-gray-100 pl-11"
+        value={searchQuery}
+        onFocus={() => setFocused(true)}
+        onChange={(e) => setSearchQuery(e.target.value)}
       />
+
+      {
+        products.length > 0 && (
+          <div
+            className={cn(
+              'absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30',
+              focused && 'visible opacity-100 top-12')}
+          >
+            {products.map((product) => (
+              <Link
+                key={product.id}
+                className="flex items-center gap-3 w-full px-3 py-2 hover:bg-primary/10"
+                href={`/product/${product.id}`}
+                onClick={onClickItem}
+                scroll={false}
+              >
+                <img
+                  className="rounded-sm h-8 w-8"
+                  src={product.imageUrl}
+                  alt={product.name}
+                />
+                <span>{product.name}</span>
+              </Link>
+            ))}
+          </div>
+        )
+      }
     </div>
   );
 }

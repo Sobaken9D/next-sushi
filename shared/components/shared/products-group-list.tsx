@@ -5,8 +5,8 @@ import {Title} from "@/shared/components/shared/title";
 import {ProductCard} from "@/shared/components/shared/product-card";
 import {useEffect, useRef} from "react";
 import {useIntersection} from "react-use";
-import {useAppDispatch, useAppSelector} from "@/shared/store/store";
 import {setActiveId} from "@/shared/store/features/categorySlice";
+import {useAppDispatch, useAppSelector} from "@/shared/store/hooks";
 
 interface Props {
   categoryId: string;

@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/prisma-client";
-import {createUpdatedCart} from "@/shared/lib/cteate-updated-cart";
+import {createUpdatedCart} from "@/shared/lib/create-updated-cart";
 
 export async function DELETE(req: NextRequest, {params}: {
   params: Promise<{ id: string }>
@@ -17,7 +17,7 @@ export async function DELETE(req: NextRequest, {params}: {
     const cartItem = await prisma.cartItem.findFirst({
       where: {
         id: id,
-      }
+      },
     });
 
     if (!cartItem) {

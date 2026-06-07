@@ -4,6 +4,8 @@ import "./globals.css";
 import {Roboto, Geist} from "next/font/google";
 import {cn} from "@/shared/lib/utils";
 import {Providers} from "@/shared/components/shared/providers";
+import {Toaster} from "react-hot-toast";
+
 
 const geist = Geist({subsets: ['latin'], variable: '--font-sans'});
 
@@ -33,6 +35,7 @@ export default function RootLayout({
     <body className={roboto.variable}>
     <Providers>
       {children}
+      <Toaster />
     </Providers>
     </body>
     </html>

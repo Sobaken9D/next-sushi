@@ -2,7 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/prisma-client";
 import {CreateCartItemDto} from "@/shared/services/dto/cart.dto";
 import {findOrCreateCart} from "@/shared/lib/find-or-create-cart";
-import {createUpdatedCart} from "@/shared/lib/cteate-updated-cart";
+import {createUpdatedCart} from "@/shared/lib/create-updated-cart";
 
 // Что0бы задать token вручную = F12 -> Application -> Name = cartToken, Value = ...
 
@@ -16,8 +16,6 @@ export async function GET(req: NextRequest) {
     // если нет токена то возвращаем пустую корзину
     // если токен есть то находим корзину пользователя по токену
 
-    console.log(token);
-
     if (!token) {
       return NextResponse.json({totalAmount: 0, items: []});
     }
@@ -25,6 +23,16 @@ export async function GET(req: NextRequest) {
     const userCart = await prisma.cart.findFirst({
       where: {
         token
+      },
+      include: {
+        items: {
+          orderBy: { // отсортируем товары в порядке добавления
+            createdAt: 'desc',
+          },
+          include: {
+            productItem: true
+          }
+        }
       }
     });
 

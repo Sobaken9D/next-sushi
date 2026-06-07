@@ -15,14 +15,40 @@ import {Title} from "@/shared/components/shared/title";
 import {cn} from "@/shared/lib/utils";
 import {ArrowLeft, ArrowRight} from "lucide-react";
 import Link from "next/link";
+import {useAppDispatch, useAppSelector} from "@/shared/store/hooks";
+import {useEffect} from "react";
+import {
+  fetchStore,
+  removeCartItem,
+  updateItemQuantity
+} from "@/shared/store/features/cartSlice";
+import {CartDrawerItem} from "@/shared/components/shared/cart-drawer-item";
+import {getPluralNoun} from "@/shared/lib/get-plural-noun";
 
 interface Props {
   children?: React.ReactNode;
 }
 
 export const CartDrawer = ({children}: Props) => {
-  const totalAmount = 0;
-  const items = [];
+  const dispatch = useAppDispatch();
+  const {
+    items,
+    loading,
+    error,
+    totalAmount
+  } = useAppSelector((state) => state.cart);
+
+  useEffect(() => {
+    dispatch(fetchStore());
+  }, [dispatch]);
+
+  // if (loading) {
+  //   return (
+  //     <div className="text-center text-[30px]">Loading ...</div>
+  //   );
+  // }
+
+  console.log(items);
 
   return (
     <Sheet>
@@ -32,7 +58,7 @@ export const CartDrawer = ({children}: Props) => {
         <div className={cn("flex flex-col h-full", !totalAmount && "justify-center")}>
           <SheetHeader>
             <SheetTitle>
-              {totalAmount > 0 && `В корзине ${items.length} товар(-ов)`}
+              {totalAmount > 0 && `В корзине ${items.reduce((acc, item) => acc += item.quantity, 0)} ${getPluralNoun(items.length)}`}
             </SheetTitle>
           </SheetHeader>
 
@@ -68,7 +94,34 @@ export const CartDrawer = ({children}: Props) => {
 
           {totalAmount > 0 && (
             <>
-              <div>list of items</div>
+              <div className="mt-5 overflow-auto flex-1">
+                {
+                  items.map((item) => (
+                    <div
+                      key={item.id}
+                      className="mb-2"
+                    >
+                      <CartDrawerItem
+                        weight={item.weight}
+                        name={item.name}
+                        imageUrl={item.imageUrl}
+                        price={item.price}
+                        quantity={item.quantity}
+                        onClickRemove={() => {
+                          dispatch(removeCartItem({id: item.id}))
+                        }}
+                        onClickCountButton={(type: 'plus' | 'minus') => {
+                          const newQuantity = type === 'plus' ? item.quantity + 1 : item.quantity - 1;
+                          dispatch(updateItemQuantity({
+                            id: item.id,
+                            quantity: newQuantity
+                          }))
+                        }}
+                      />
+                    </div>
+                  ))
+                }
+              </div>
               <SheetFooter className="bg-white p-8">
                 <div className="w-full">
                   <div className="flex mb-4">

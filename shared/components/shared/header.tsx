@@ -10,9 +10,15 @@ import {CartButton} from "@/shared/components/shared/cart-button";
 
 interface Props {
   className?: string;
+  hasSearch?: boolean;
+  hasCart?: boolean;
 }
 
-export const Header = ({className}: Props) => {
+export const Header = ({
+  className,
+  hasCart = true,
+  hasSearch = true
+}: Props) => {
   return (
     <header className={cn('border-b', className)}>
       <Container className="flex items-center justify-between py-8">
@@ -33,9 +39,11 @@ export const Header = ({className}: Props) => {
         </Link>
 
         {/*Поиск*/}
-        <div className="mx-10 flex-1">
-          <SearchInput />
-        </div>
+        {hasSearch && (
+          <div className="mx-10 flex-1">
+            <SearchInput />
+          </div>
+        )}
 
         {/*Корзина и профиль*/}
         <div className="flex items-center gap-3">
@@ -47,7 +55,7 @@ export const Header = ({className}: Props) => {
             Войти
             <User size={16} />
           </Button>
-          <CartButton/>
+          {hasCart && (<CartButton />)}
         </div>
 
       </Container>

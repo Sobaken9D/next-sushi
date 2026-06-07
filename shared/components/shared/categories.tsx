@@ -2,7 +2,7 @@
 
 import {Category} from "@/generated/prisma/client";
 import {cn} from "@/shared/lib/utils";
-import {useAppSelector} from "@/shared/store/store";
+import {useAppSelector} from "@/shared/store/hooks";
 
 interface Props {
   items: Category[];
